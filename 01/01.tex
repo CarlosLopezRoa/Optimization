@@ -1,0 +1,187 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{cite}
+\usepackage{listings}
+\usepackage[english]{babel}
+\usepackage[T1]{fontenc}
+%\decimalpoint 
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage[]{circuitikz}
+\setlength{\oddsidemargin}{0in}
+\setlength{\topmargin}{-.8in}
+\setlength{\textheight}{9.7in} \setlength{\textwidth}{6.5in}
+\usepackage{color,hyperref}
+\definecolor{darkblue}{rgb}{0.0,0.0,0.3}
+\hypersetup{colorlinks,breaklinks,
+            linkcolor=darkblue,urlcolor=darkblue,
+            anchorcolor=darkblue,citecolor=darkblue}
+\providecommand*\url[1]{\href{#1}{#1}}
+\renewcommand*\url[1]{\href{#1}{\texttt{#1}}}
+
+\newcommand{\bm}[1]{\boldsymbol{#1}}
+\newcommand{\bh}[1]{\boldsymbol{\hat{#1}}}
+\newcommand{\bt}[1]{\boldsymbol{\tilde{#1}}}
+\newcommand{\bbar}[1]{\boldsymbol{\bar{#1}}}
+\newcommand{\mbf}[1]{\ensuremath{\mathbf{#1}}}
+\newcommand{\ode}[2]{\ensuremath{\frac{\mathrm{d} #1}{\mathrm{d} #2}}}
+\newcommand{\odet}[2]{\ensuremath{\tfrac{\mathrm{d} #1}{\mathrm{d} #2}}}
+\newcommand{\oden}[3]{\ensuremath{\frac{\mathrm{d}^#3 #1}{\mathrm{d} #2^#3}}}
+\newcommand{\pde}[2]{\ensuremath{\frac{\partial #1}{\partial #2}}}
+\newcommand{\pdet}[2]{\ensuremath{\tfrac{\partial #1}{\partial #2}}}
+\newcommand{\pden}[3]{\ensuremath{\frac{\partial^{#3} #1}{\partial
+      #2^{#3}}}}
+\newcommand{\sub}[1]{\ensuremath{_{\rm{#1}}}}
+\newcommand{\arriba}[1]{\ensuremath{^{\rm{#1}}}}
+%
+\newcommand{\N}{\ensuremath{\mathbb{N}}}
+\newcommand{\R}{\ensuremath{\mathbb{R}}}
+\newcommand{\C}{\ensuremath{\mathbb{C}}}
+\newcommand{\ee}[1]{\ensuremath{\mathrm{e}^{#1}}}
+\newcommand{\hdos}{\ensuremath{\mathrm{H}_2}}
+\newcommand{\COdos}{\ensuremath{\mathrm{CO}_2}}
+\newcommand{\ATP}{\ensuremath{\mathrm{ATP}}}
+
+\newcommand{\dt}{\ensuremath{\mathrm{d}t}}
+\newcommand{\dtau}{\ensuremath{\mathrm{d}\tau}}
+\newcommand{\DV}{\ensuremath{\Delta V}}
+
+\DeclareMathOperator{\Li}{\mathcal {L}^{-1}}
+\DeclareMathOperator{\Lin}{\mathcal {L}^{-1}}
+\DeclareMathOperator{\sinc}{\text{sinc}}
+\DeclareMathOperator{\sign}{\mathrm{sign}}
+
+\newtheorem{deff}{Definition}
+\usepackage[utf8x]{inputenc}
+%%
+
+\title{Homework 1\\ Optimization}
+\author{Carlos López Roa}
+\date{\today}
+\pdfinfo{%
+  /Title    ()
+  /Author   (CLR)
+  /Creator  ()
+  /Producer ()
+  /Subject  ()
+  /Keywords ()
+}
+\begin{document}
+\maketitle
+%%% Content
+Show that the following functions are log-concave\footnote{From  \emph{Boyd, S., \& Vandenberghe, L. (2002). Convex Optimization} problem 3.49}, i.e.
+\begin{deff}
+$f$ is log-concave if 
+\begin{equation}
+\begin{aligned}
+f(\theta x + (1-\theta y)) \geq f(x)^\theta f(y)^{1-\theta}
+\end{aligned}
+\end{equation}
+ or equivalently 
+\begin{equation}
+\begin{aligned}
+\log f(\theta x + (1-\theta)y) \geq \theta \log f(x) + (1-\theta)\log f(y)
+\end{aligned}
+\end{equation}
+$$\forall x,y  \in dom f; 0 \leq \theta \leq 1$$ 
+\end{deff}
+
+\begin{enumerate}
+\item Logistic function
+\begin{equation}
+\begin{aligned}
+\frac{e^x}{(1+e^x)} && \text{dom} f = \mathbb{R}
+\end{aligned}
+\end{equation}
+
+\begin{equation}
+\begin{aligned}
+f(\theta x + (1-\theta) y ) = \frac{e^{\theta x + (1-\theta) y}}{1+e^{\theta x + (1-\theta)y}} &\geq \frac{e^{\theta x + (1-\theta) y}}{(1+e^x)^\theta(1+e^y)^{1-\theta}} = f(x)^\theta f(y)^{1-\theta} \\
+1+e^{\theta x} e^{(1-\theta)y} &\leq (1+e^x)^\theta(1+e^y)^{1-\theta} \\ 
+ \theta \log e^{ x} + (1-\theta) \log e^{y}&\leq \theta \log (1 + e^x) + (1-\theta)\log (1+e^y)
+\end{aligned}
+\end{equation}
+
+Which holds since $\log (e^x) \leq \log (e^x + c)$ , $\forall \, c \geq 0$  
+
+\hspace{15.5cm}$\square$
+
+\item Harmonic mean : 
+\begin{equation}
+\begin{aligned}
+f(x) &= \frac{1}{\sum_i^nx_i} & \text{dom} f = \mathbb{R}_{++}^n
+\end{aligned}
+\end{equation}
+
+Recall $\min{x_i}\leq H(x)\leq n\min{x_i}$. With $H(x) = n f(x)$ the conventional Harmonic mean. Then 
+
+\begin{equation}
+\begin{aligned}
+f(\theta x + (1-\theta y)) &\geq f(x)^\theta f(y)^{1-\theta}\\
+n\min\{\ \theta x_i +(1-\theta)y_i\} &\geq \min \{ x_i \}^{\theta} \min \{ y_i \}^{1-\theta}
+\end{aligned}
+\end{equation}
+Let $x_k,y_k$ be the minimums respectively.
+
+\begin{equation}
+\begin{aligned}
+\theta x_k +(1-\theta)y_k &\geq x^\theta_k y^{1-\theta}_k
+\end{aligned}
+\end{equation}
+Which holds $\forall \, x_k, y_k \in \mathbb{R}^n_{++}$ and $0\leq \theta \leq 1$
+
+\hspace{15.5cm}$\square$
+
+\newpage
+\item Product over sum:
+\begin{equation}
+\begin{aligned}
+f(x)&=\frac{\prod^n_{i=1}x_i}{\sum^n_{i=1}x_i} & \text{dom} f = \mathbb{R}_{++}^n
+\end{aligned}
+\end{equation}
+
+\begin{equation}
+\begin{aligned}
+\log f(x) &= \log \prod^n_{i=1} x_i - \log \sum^n_{i=1} x_i \\
+&= \sum^n_{i=1}\log x_i - \log \sum^n_{i=1}x_i
+\end{aligned}
+\end{equation}
+
+\begin{equation}
+\begin{aligned}
+f(\theta x + (1-\theta)y) &\geq f(x)^\theta f(y)^{1-\theta} \\
+\frac{\prod^n_{i=1} \theta x + (1-\theta)y}{\sum ^n_{i=1}  \theta x + (1-\theta)y} &\geq \left(\frac{\prod ^n_{i=1} x_i}{\sum ^n_{i=1} x_i}\right)^\theta\left(\frac{\prod ^n_{i=1} y_i}{\sum ^n_{i=1} y_i}\right)^{1-\theta} \\
+&\geq \frac{\prod x^\theta_i y_i^{1-\theta}}{(\sum x_i)^\theta (\sum y_i)^{1-\theta}}
+\end{aligned}
+\end{equation}
+Which holds by the previous result
+
+\hspace{15.5cm}$\square$
+
+\item Determinant over trace:
+\begin{equation}
+\begin{aligned}
+f(X)&=\frac{\det X}{\text{tr} \, X} & \text{dom} f = \mathbb{S}_{++}^n
+\end{aligned}
+\end{equation}
+
+Since $X \in \mathbb{S}_{++}^n$ we can always find $\Lambda$ the associated diagonal matrix with eigenvalues $\lambda_k >0$ and we may write the invariants:
+
+\begin{equation}
+\begin{aligned}
+f(X) = f(\Lambda) = \frac{\det \Lambda}{\text{tr} \, \Lambda} = \frac{\prod \lambda_i}{\sum \lambda_i}
+\end{aligned}
+\end{equation}
+\begin{equation}
+\begin{aligned}
+\log f(x) &= \sum \log \lambda_i - \log \sum \lambda_i
+\end{aligned}
+\end{equation}
+
+Which is the previous result
+
+\hspace{15.5cm}$\square$
+
+%%%
+\end{enumerate}
+\end{document}

@@ -1,0 +1,19 @@
+%%
+clc 
+clear all
+cd /Users/poincare/Dropbox/Courseware_/Op/04/
+A=importdata('x100.txt');
+yt=importdata('y100.txt');
+[m n]=size(A);
+nu=10;
+e=ones(m,1);
+%%
+cvx_begin quie
+    variables w(n) gam y(m)
+    minimize (nu*e'*y+(0.5)*w'*w)
+      subject to
+      diag(yt)*(A*w-e*gam) + y >= e 
+      y >= 0
+cvx_end
+%%
+sum(sign(A*w-gam+y)-yt)
